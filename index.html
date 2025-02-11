@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Poedie Quiz</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Home Page Styles */
+        .home-page {
+            background-color: pink;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .home-page h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: black;
+            margin: 0;
+        }
+        .home-page img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+        .home-page p {
+            font-size: 1.2rem;
+            color: black;
+            margin-top: 10px;
+        }
+        #wtf-button {
+            display: none;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            background-color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            position: relative;
+            z-index: 10;
+        }
+        .countdown {
+            font-size: 2rem;
+            font-weight: bold;
+            color: black;
+            margin-top: 20px;
+        }
+        .smoke {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 80%);
+            opacity: 0;
+            animation: smokeAnimation 2s ease-out forwards;
+        }
+        @keyframes smokeAnimation {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(5);
+            }
+        }
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 2rem;
+            animation: beat 1s infinite;
+        }
+        @keyframes beat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        /* Level Styles */
+        .level {
+            background-color: pink;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .level h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .level .images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .level img {
+            max-width: 100%;
+            height: auto;
+            object-fit: cover;
+            border: 2px solid black;
+        }
+        .level .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .level button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+            position: relative;
+            z-index: 10;
+        }
+        .level button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .level button:hover:not(:disabled) {
+            background-color: #ddd;
+        }
+
+        /* Prompt Styles */
+        .prompt {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            z-index: 1000;
+            display: none;
+        }
+
+        /* Final Screen Styles */
+        .final-screen {
+            background-color: pink;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .final-screen h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: black;
+            margin: 0;
+        }
+        .final-screen img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+        .final-screen p {
+            font-size: 1.2rem;
+            color: black;
+            margin-top: 10px;
+        }
+
+        /* Media Queries for Smaller Screens */
+        @media (max-width: 600px) {
+            .home-page h1 {
+                font-size: 2rem;
+            }
+            .home-page p {
+                font-size: 1rem;
+            }
+            .level h2 {
+                font-size: 1.5rem;
+            }
+            .level button {
+                font-size: 0.9rem;
+                padding: 8px 16px;
+            }
+            .final-screen h1 {
+                font-size: 1.5rem;
+            }
+            .final-screen p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+    <script>
+        // Your existing JavaScript code remains unchanged
+    </script>
+</head>
+<body>
+    <!-- Home Page -->
+    <div class="home-page">
+        <h1>Welcome Iris to the Poedie Quiz</h1>
+        <img src="high pic.jpg" alt="Quiz Image">
+        <p>Today we will play a little game</p>
+        <div id="countdown" class="countdown">2</div>
+        <button id="wtf-button">wtf, okay?</button>
+    </div>
+
+    <!-- Level One -->
+    <div class="level level-one">
+        <h2>Wie is de schattigste ter wereld?</h2>
+        <div class="images">
+            <img src="level_1_Sira.jpg" alt="Left Image">
+            <img src="level_1_iris.jpg" alt="Middle Image">
+            <img src="level_1_Lulu.jpg" alt="Right Image">
+        </div>
+        <div class="buttons">
+            <button>Left</button>
+            <button>Middle</button>
+            <button>Right</button>
+        </div>
+    </div>
+
+    <!-- Level Two -->
+    <div class="level level-two">
+        <h2>Wie kan het lekkerste koken?</h2>
+        <div class="images">
+            <img src="level_2_iris.jpg" alt="Left Image">
+            <img src="level_1_gordon ramsay.jpg" alt="Right Image">
+        </div>
+        <div class="buttons">
+            <button>Left</button>
+            <button>Right</button>
+        </div>
+    </div>
+
+    <!-- Level Three -->
+    <div class="level level-three">
+        <h2>Wie is de grootste zoeperd?</h2>
+        <div class="images">
+            <img src="level_3_iris.jpg" alt="Left Image">
+            <img src="level_3_julius.jpg" alt="Right Image">
+        </div>
+        <div class="buttons">
+            <button>Left</button>
+            <button>Right</button>
+        </div>
+    </div>
+
+    <!-- Level Four -->
+    <div class="level level-four">
+        <h2>Wie is het grappigst?</h2>
+        <div class="images">
+            <img src="level_3_Ronald.jpg.png" alt="Left Image">
+            <img src="level_4_iris.jpg" alt="Right Image">
+        </div>
+        <div class="buttons">
+            <button>Left</button>
+            <button>Right</button>
+        </div>
+    </div>
+
+    <!-- Level Five -->
+    <div class="level level-five">
+        <h2>Wie haalt het beste uit mij (Julius AKA quizmaster) naar boven?</h2>
+        <div class="images">
+            <img src="level_5_iris en ik.jpg" alt="Left Image">
+            <img src="level_5_drank.jpg" alt="Right Image">
+        </div>
+        <div class="buttons">
+            <button>Left</button>
+            <button>Right</button>
+        </div>
+    </div>
+
+    <!-- Level Six -->
+    <div class="level level-six">
+        <h2>Met wie heb ik de leukste avonturen beleefd</h2>
+        <div class="images">
+            <img src="level_5_london.jpg" alt="Left Image">
+            <img src="level_5_Zakynthos.jpg" alt="Right Image">
+        </div>
+        <div class="buttons">
+            <button>Left</button>
+            <button>Right</button>
+        </div>
+    </div>
+
+    <!-- Level Seven -->
+    <div class="level level-seven">
+        <h2>Op wie ben ik het meest trots?</h2>
+        <div class="images">
+            <img src="level_7_anxiety.jpg" alt="Left Image">
+            <img src="level_7_vrij.jpg" alt="Right Image">
+        </div>
+        <div class="buttons">
+            <button>Left</button>
+            <button>Right</button>
+        </div>
+    </div>
+
+    <!-- Final Screen -->
+    <div class="final-screen">
+        <h1>Damn poedie, ik wist wel dat je de beste was. Echte ride or die!</h1>
+        <img src="final.jpg" alt="Final Image">
+        <p> Wil je dan nu mijn valentijn zijn?❤️ </p>
+    </div>
+</body>
+</html>
