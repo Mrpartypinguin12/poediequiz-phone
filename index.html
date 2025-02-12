@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Poedie Quiz</title>
+    <style>
+        /* Your existing CSS styles */
+    </style>
+    <script>
+        let countdownValue = 5;
+
+        function updateCountdown() {
+            const countdownElement = document.getElementById('countdown');
+            if (countdownValue > 0) {
+                countdownElement.textContent = countdownValue;
+                countdownValue--;
+                setTimeout(updateCountdown, 1000); // Update every 1 second
+            } else {
+                showButtonWithPoof();
+                addHearts();
+            }
+        }
+
+        function showButtonWithPoof() {
+            const button = document.getElementById('wtf-button');
+            const countdown = document.getElementById('countdown');
+            countdown.remove();
+
+            const smokeContainer = document.createElement('div');
+            smokeContainer.style.position = 'absolute';
+            smokeContainer.style.left = '50%';
+            smokeContainer.style.top = '60%';
+            smokeContainer.style.transform = 'translate(-50%, -50%)';
+            smokeContainer.style.zIndex = '5';
+
+            for (let i = 0; i < 20; i++) {
+                const smoke = document.createElement('div');
+                smoke.classList.add('smoke');
+                smoke.style.left = `${Math.random() * 100 - 50}px`;
+                smoke.style.top = `${Math.random() * 50 - 25}px`;
+                smokeContainer.appendChild(smoke);
+            }
+
+            document.body.appendChild(smokeContainer);
+
+            setTimeout(() => {
+                button.style.display = 'block';
+            }, 1000);
+        }
+
+        function addHearts() {
+            const image = document.querySelector('img');
+            for (let i = 0; i < 10; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.top = `${Math.random() * 100}%`;
+                heart.style.fontSize = `${Math.random() * 2 + 1}rem`;
+                image.parentElement.appendChild(heart);
+            }
+        }
+
+        window.onload = function () {
+            updateCountdown(); // Start the countdown
+            document.getElementById('wtf-button').addEventListener('click', goToLevelOne);
+        };
+    </script>
+</head>
+<body>
+    <!-- Home Page -->
+    <div class="home-page">
+        <h1>Welcome Iris to the Poedie Quiz</h1>
+        <img src="high pic.jpg" alt="Quiz Image">
+        <p>Today we will play a little game</p>
+        <div id="countdown" class="countdown">5</div>
+        <button id="wtf-button">wtf, okay?</button>
+    </div>
+
+    <!-- Your existing level and final screen HTML -->
+</body>
+</html>
